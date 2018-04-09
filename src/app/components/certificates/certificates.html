@@ -1,0 +1,251 @@
+<div class="content-wrapper">
+    <div class="content">
+        <h1><i class="fa fa-tags"></i> {{'certificates.title'|translate}}</h1>
+        {{'certificates.description'|translate}}
+
+        <br/>
+        <br/>
+
+        <form [formGroup]="form" novalidate>
+
+            <div class="grid gutter">
+                <div class="col-4 col-md-12">
+
+                    <input-component class="col-4 col-md-12" label="certificates.cert.type"
+                                     [errors]="form.controls.certType.errors"
+                                     [control]="form.controls.certType">
+
+                        <select formControlName="certType">
+                            <option disabled selected value></option>
+                            <option value="CA">CA</option>
+                            <option value="SERVER">Server</option>
+                            <option value="CLIENT">Client</option>
+                        </select>
+                    </input-component>
+
+                </div>
+            </div>
+
+            <div class="grid gutter" *ngIf="certType">
+                <div class="col-4 col-sm-12" *ngIf="certType=='SERVER' || certType=='CLIENT'">
+                    <h3><i class="fa fa-building"></i> {{'certificates.ca.group-name'|translate}}</h3>
+                    {{'certificates.ca.group-description'|translate}}
+                    <div class="grid gutter">
+
+                        <input-component class="col-12" label="certificates.ca.keystore"
+                                         [errors]="form.controls.caKeystore.errors"
+                                         [control]="form.controls.caKeystore">
+                            <input type="text" formControlName="caKeystore">
+                        </input-component>
+
+                        <input-component class="col-12" label="certificates.ca.keystorePass"
+                                         [errors]="form.controls.caKeystorePass.errors"
+                                         [control]="form.controls.caKeystorePass">
+                            <input type="password" formControlName="caKeystorePass">
+                        </input-component>
+
+                        <input-component class="col-12" label="certificates.ca.keystoreKeyPass"
+                                         [errors]="form.controls.caKeystoreKeyPass.errors"
+                                         [control]="form.controls.caKeystoreKeyPass">
+                            <input type="password" formControlName="caKeystoreKeyPass">
+                        </input-component>
+
+                        <input-component class="col-12" label="certificates.ca.alias"
+                                         [errors]="form.controls.caAlias.errors"
+                                         [control]="form.controls.caAlias">
+                            <input type="text" formControlName="caAlias">
+                        </input-component>
+
+                    </div>
+
+                </div>
+                <div class="col-8 col-sm-12">
+                    <h3><i class="fa fa-id-card"></i> {{'certificates.cert.group-name'|translate}}</h3>
+                    {{'certificates.cert.group-description'|translate}}
+                    <div class="grid gutter">
+
+                        <input-component class="col-12" label="certificates.cert.alias"
+                                         [errors]="form.controls.alias.errors"
+                                         [control]="form.controls.alias">
+                            <input type="text" formControlName="alias">
+                        </input-component>
+
+                        <input-component class="col-4" label="certificates.cert.keyAlg"
+                                         [errors]="form.controls.keyAlg.errors"
+                                         [control]="form.controls.keyAlg">
+                            <select formControlName="keyAlg">
+                                <option selected value="RSA">RSA</option>
+                                <option value="EC">EC</option>
+                            </select>
+                        </input-component>
+                        <input-component class="col-4" label="certificates.cert.keySize"
+                                         [errors]="form.controls.keySize.errors"
+                                         [control]="form.controls.keySize">
+                            <input type="text" formControlName="keySize">
+                        </input-component>
+                        <input-component class="col-4" label="certificates.cert.validityDays"
+                                         [errors]="form.controls.validityDays.errors"
+                                         [control]="form.controls.validityDays">
+                            <input type="text" formControlName="validityDays">
+                        </input-component>
+
+                        <input-component class="col-3 col-lg-6" label="certificates.cert.dnameCN"
+                                         [errors]="form.controls.dnameCN.errors"
+                                         [control]="form.controls.dnameCN">
+                            <input type="text" formControlName="dnameCN">
+                        </input-component>
+                        <input-component class="col-3 col-lg-6" label="certificates.cert.dnameOU"
+                                         [errors]="form.controls.dnameOU.errors"
+                                         [control]="form.controls.dnameOU">
+                            <input type="text" formControlName="dnameOU">
+                        </input-component>
+                        <input-component class="col-3 col-lg-6" label="certificates.cert.dnameO"
+                                         [errors]="form.controls.dnameO.errors"
+                                         [control]="form.controls.dnameO">
+                            <input type="text" formControlName="dnameO">
+                        </input-component>
+                        <input-component class="col-3 col-lg-6" label="certificates.cert.dnameC"
+                                         [errors]="form.controls.dnameC.errors"
+                                         [control]="form.controls.dnameC">
+                            <input type="text" formControlName="dnameC">
+                        </input-component>
+
+
+                        <input-component class="col-4 col-md-6" label="certificates.cert.keystore"
+                                         [errors]="form.controls.keystore.errors"
+                                         [control]="form.controls.keystore">
+                            <input type="text" formControlName="keystore">
+                        </input-component>
+                        <input-component class="col-4 col-md-6" label="certificates.cert.keystorePass"
+                                         [errors]="form.controls.keystorePass.errors"
+                                         [control]="form.controls.keystorePass">
+                            <input type="password" formControlName="keystorePass">
+                        </input-component>
+                        <input-component class="col-4 col-md-6" label="certificates.cert.keystoreKeyPass"
+                                         [errors]="form.controls.keystoreKeyPass.errors"
+                                         [control]="form.controls.keystoreKeyPass">
+                            <input type="password" formControlName="keystoreKeyPass">
+                        </input-component>
+                        <input-component class="col-4 col-md-6" label="certificates.cert.truststore"
+                                         [errors]="form.controls.truststore.errors"
+                                         [control]="form.controls.truststore">
+                            <input type="text" formControlName="truststore">
+                        </input-component>
+                        <input-component class="col-4 col-md-6" label="certificates.cert.truststorePass"
+                                         [errors]="form.controls.truststorePass.errors"
+                                         [control]="form.controls.truststorePass">
+                            <input type="password" formControlName="truststorePass">
+                        </input-component>
+
+                        <input-component class="col-12" label="certificates.cert.serverNames"
+                                         *ngIf="certType=='SERVER'"
+                                         [errors]="form.controls.serverNames.errors"
+                                         [control]="form.controls.serverNames">
+                            <input type="text" formControlName="serverNames">
+                        </input-component>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+        <hr>
+
+        <div class="script" *ngIf="certType=='CA' && certValid">
+            <h5>Create CA certificate</h5>
+            <code>keytool -genkeypair -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}} -alias
+                {{settings.alias}}
+                -keystore {{settings.keystore}} -dname "{{settings.dname}}"
+                -storepass {{settings.keystorePass}} -keypass {{settings.keystoreKeyPass}} -ext
+                KeyUsage:critical="keyCertSign,cRLSign" -ext
+                BasicConstraints:critical="ca:true,pathlen:1" -validity {{settings.validityDays}}
+            </code>
+        </div>
+
+        <div class="script" *ngIf="certType=='CA' && certValid">
+            <h5>Export CA public certificate</h5>
+            <code>keytool -export -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -keypass
+                {{settings.keystoreKeyPass}} -alias
+                {{settings.alias}} -file {{settings.alias}}.cer
+            </code>
+            <code>keytool -exportcert -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -keypass
+                {{settings.keystoreKeyPass}} -alias
+                {{settings.alias}} -rfc -file {{settings.alias}}.pem
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Create Server certificate</h5>
+            <code> keytool -genkey -alias {{settings.alias}} -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}}
+                -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -validity {{settings.validityDays}}
+                -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -keypass
+                {{settings.keystoreKeyPass}} -dname "{{settings.dname}}"
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Create CSR (certificate signing request)</h5>
+            <code>
+                keytool -certreq -alias {{settings.alias}} -keystore {{settings.keystore}} -storepass
+                {{settings.keystorePass}} -keypass {{settings.keystoreKeyPass}} -file {{settings.alias}}.csr
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
+            <h5>CA: Sign CSR (certificate signing request)</h5>
+            <code>
+                keytool -gencert -keystore {{settings.caKeystore}} -storepass {{settings.caKeystorePass}} -alias
+                {{settings.caAlias}}
+                -validity {{settings.validityDays}} -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext
+                EKU="{{settings.eku}}" <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
+                -keypass {{settings.caKeystoreKeyPass}} -infile
+                {{settings.alias}}.csr -outfile {{settings.alias}}-signed.cer
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
+            <h5>Import CA cert and signed CSR (certificate signing request)</h5>
+            <code>
+                keytool -import -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
+                -alias {{settings.caAlias}} -file {{settings.caAlias}}.cer -noprompt
+            </code>
+            <code>
+                keytool -import -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
+                -keypass {{settings.keystorePass}} -alias {{settings.alias}} -file
+                {{settings.alias}}-signed.cer
+                -noprompt
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Export server keystore as PKCS12</h5>
+            <code>keytool -importkeystore -srckeystore {{settings.keystore}} -srcstorepass
+                {{settings.keystorePass}} -alias {{settings.alias}} -srckeypass {{settings.keystorePass}} -destkeystore
+                {{settings.keystore}}.p12 -deststoretype PKCS12 -deststorepass {{settings.keystorePass}}
+                -destkeypass {{settings.keystorePass}}
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Export server public certificate</h5>
+            <code>keytool -export -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
+                -alias {{settings.alias}} -rfc -file {{settings.alias}}.cer
+            </code>
+        </div>
+
+        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
+            <h5>Create Server truststore</h5>
+            <code *ngIf="caValid">
+                keytool -keystore {{settings.truststore}} -storepass {{settings.truststorePass}} -import -file
+                {{settings.caAlias}}.cer -alias {{settings.caAlias}} -noprompt
+            </code>
+            <code>
+                keytool -importkeystore -srckeystore {{settings.truststore}} -srcstorepass
+                {{settings.truststorePass}} -destkeystore {{settings.alias}}.p12 -srcstoretype JKS
+                -deststoretype PKCS12 -deststorepass {{settings.truststorePass}}
+            </code>
+        </div>
+
+
+    </div>
+</div>

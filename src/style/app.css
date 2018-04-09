@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
+
+.script > code {
+    font-family: "Inconsolata", monospace;
+    font-weight: 700;
+    font-size: 15px;
+    display: block;
+    background-color: #E2EBED;
+    color: #394851;
+    padding: 5px 10px;
+    margin: 0;
+    margin-bottom: 6px;
+    padding-left: 2em;
+    text-indent: -2em;
+}
+
+.script {
+    padding: 0 10px;
+    border-left: 3px solid #405169;
+    margin-top: 2em;
+}

@@ -1,0 +1,15 @@
+<div class="nav-item popup">
+    <i class="fa fa-language" aria-hidden="true"></i>
+    {{translateService.getLanguage() | uppercase}}
+    <i class="fa fa-caret-down" aria-hidden="true"></i>
+    <ul class="popup-content list list-icons">
+        <a (click)="translateService.setLanguage(lang)" *ngFor="let lang of translateService.getSupportedLanguages()">
+            <li>
+                <span class="list-icon">
+                    <img [src]="'images/lang/'+lang+'.png'">
+                </span>
+                {{translateService.getLanguageName(lang)}}
+            </li>
+        </a>
+    </ul>
+</div>

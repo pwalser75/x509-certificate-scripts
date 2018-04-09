@@ -1,0 +1,65 @@
+{
+  "general": {
+    "loading": "Wird geladen",
+    "submit": "Absenden",
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "yes": "Ja",
+    "no": "Nein",
+    "yes-nice": "Ja, gerne",
+    "no-nice": "Nein, danke",
+    "create": "Erstellen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "refresh": "Aktualisieren",
+    "delete": "Löschen",
+    "print": "Drucken",
+    "share": "Teilen",
+    "login": "Anmelden",
+    "logout": "Abmelden"
+  },
+  "error": {
+    "required": "Pflichtfeld",
+    "minlength": "Wert muss aus mindestens ${requiredLength} Zeichen bestehen (aktuell: ${actualLength})",
+    "maxlength": "Wert darf aus höchstens ${requiredLength} Zeichen bestehen (aktuell: ${actualLength})",
+    "pattern": "Wert entspricht nicht dem erwarteten Format (${requiredPattern})"
+  },
+  "app": {
+    "title": "-> certificates.title",
+    "description": "-> certificates.description"
+  },
+  "menu": {
+    "welcome": "-> welcome.title"
+  },
+  "certificates": {
+    "title": "X.509 Zertifikate",
+    "description": "Script-generator für X.509 Zertifikate",
+    "ca": {
+      "group-name": "CA",
+      "group-description": "Certificate Authority für Signierung",
+      "keystore": "Keystore",
+      "keystorePass": "Keystore Passwort",
+      "keystoreKeyPass": "Keystore Key Passwort",
+      "alias": "Alias"
+    },
+    "cert": {
+      "group-name": "Zertifikat",
+      "group-description": "Einstellungen für Zertifikatsgenerierung",
+      "type": "Zertifikats-Typ",
+      "keystore": "Keystore",
+      "keystorePass": "Keystore Passwort",
+      "keystoreKeyPass": "Keystore Schlüssel Passwort",
+      "truststore": "Truststore",
+      "truststorePass": "Truststore Passwort",
+      "alias": "Alias",
+      "dnameCN": "Name (CN)",
+      "dnameOU": "Org. Einheit (OU)",
+      "dnameO": "Organisation (O)",
+      "dnameC": "Land (C)",
+      "keyAlg": "Schlüssel Algorithmus",
+      "keySize": "Schlüssel-Grösse (bits)",
+      "validityDays": "Gültigkeit [Tage]",
+      "serverNames": "Server-Namen"
+    }
+  }
+}

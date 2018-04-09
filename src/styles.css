@@ -1,0 +1,6 @@
+@import "style/idx-style-min.css";
+@import "style/app.css";
+
+.input-widget * {
+    tab-index: 1;
+}

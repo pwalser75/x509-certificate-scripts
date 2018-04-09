@@ -1,0 +1,65 @@
+{
+  "general": {
+    "loading": "Loading",
+    "submit": "Submit",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "yes-nice": "Yes, please",
+    "no-nice": "No, thanks",
+    "create": "Create",
+    "save": "Save",
+    "edit": "Edit",
+    "refresh": "Refresh",
+    "delete": "Delete",
+    "print": "Print",
+    "share": "Share",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "error": {
+    "required": "Value is required",
+    "minlength": "Value must be at least ${requiredLength} characters (currently: ${actualLength})",
+    "maxlength": "Value must be no more than ${requiredLength} characters (currently: ${actualLength})",
+    "pattern": "Value does not match the expected format (${requiredPattern})"
+  },
+  "app": {
+    "title": "-> certificates.title",
+    "description": "-> certificates.description"
+  },
+  "menu": {
+    "welcome": "-> welcome.title"
+  },
+  "certificates": {
+    "title": "X.509 Certificates",
+    "description": "Script generator for X.509 certificates",
+    "ca": {
+      "group-name": "CA",
+      "group-description": "Certificate Authority for signing",
+      "keystore": "Keystore",
+      "keystorePass": "Keystore Password",
+      "keystoreKeyPass": "Keystore Key Password",
+      "alias": "Alias"
+    },
+    "cert": {
+      "group-name": "Certificate",
+      "group-description": "Certificate generation settings",
+      "type": "Certficate Type",
+      "keystore": "Keystore",
+      "keystorePass": "Keystore Password",
+      "keystoreKeyPass": "Keystore Key Password",
+      "truststore": "Truststore",
+      "truststorePass": "Truststore Password",
+      "alias": "Alias",
+      "dnameCN": "Common Name (CN)",
+      "dnameOU": "Org. Unit (OU)",
+      "dnameO": "Organization (O)",
+      "dnameC": "Country (C)",
+      "keyAlg": "Key Algorithm",
+      "keySize": "Key Size (bits)",
+      "validityDays": "Validity [days]",
+      "serverNames": "Server-Names"
+    }
+  }
+}

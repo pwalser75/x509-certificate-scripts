@@ -1,0 +1,37 @@
+plugins {
+  id "com.moowork.node" version "1.2.0"
+}
+apply plugin: 'war'
+
+group = 'ch.frostnova'
+version = '1.0.0-SNAPSHOT'
+description = 'X509 certificates'
+jar.enabled = false
+
+defaultTasks 'clean', 'build'
+
+war {
+  with {
+    from( "${project.projectDir}/dist" )
+  }
+}
+	
+node {
+	version = '8.9.4'
+	download = true
+	workDir = file("${project.projectDir}/node")
+	nodeModulesDir = file("${project.projectDir}")
+}
+
+task cleanDist(type: Delete) {
+	delete 'dist'
+}
+
+task reset(type: Delete) {
+	delete 'node'
+	delete 'node_modules'
+}
+
+clean.dependsOn cleanDist
+yarn_build.dependsOn yarn_install
+war.dependsOn yarn_build
