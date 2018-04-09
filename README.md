@@ -21,9 +21,9 @@ Usage:
 ## Build / Bundle with NPM
 You can also directly build this project using **NPM**
 
-Usage:
+Usage (project output directory: `./dist`):
 
-    npm build
+    npm run-script build
     
 To start a local test server with auto-reload (for local development):
 
