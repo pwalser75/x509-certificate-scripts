@@ -2,6 +2,8 @@
 
 Angular UI to ease generation of X.509 certificates using the Java keytool.
 
+You can **try it out** here: http://frostnova.ch/cert
+
 ![Screenshot](screenshot.png)
 
 ## Build / Bundle with Maven
