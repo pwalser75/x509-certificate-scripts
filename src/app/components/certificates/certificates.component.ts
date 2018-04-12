@@ -88,14 +88,14 @@ export class CertificatesComponent implements OnInit {
             caKeystoreKeyPass: '',
             caAlias: 'test-ca',
             keystore: '{alias}-keystore.jks',
-            keystorePass: 'Secret-007',
-            keystoreKeyPass: 'Secret-007',
+            keystorePass: '',
+            keystoreKeyPass: '',
             alias: '',
             keyAlg: 'RSA',
             keySize: '2048',
             validityDays: '1830',
             truststore: '{alias}-truststore.jks',
-            truststorePass: 'Secret-007',
+            truststorePass: '',
             serverNames: 'dn:localhost,ip:127.0.0.1',
             dnameCN: '{alias}',
             dnameOU: 'dev',
@@ -106,14 +106,24 @@ export class CertificatesComponent implements OnInit {
         this.form.setValue(initialFormValue);
 
         this.form.valueChanges.subscribe(val => {
+
+            if (val.certType == 'CA') {
+                if (val.alias) {
+                    val.caAlias = val.alias;
+                    if (val.keystore) {
+                        val.caKeystore = val.keystore.replace('{alias}', this.settings.alias);
+                    }
+                    val.caKeystorePass = val.keystorePass;
+                    val.caKeystoreKeyPass = val.keystoreKeyPass;
+                    this.form.setValue(val, {emitEvent: false});
+                }
+            }
             this.updateScripts(val);
         });
         this.updateScripts(initialFormValue);
     }
 
     private updateScripts(val: any) {
-        console.log("form valid: " + JSON.stringify(this.form.valid));
-        console.log("updateScripts: " + JSON.stringify(val));
         this.certType = val.certType;
         this.settings = val;
 

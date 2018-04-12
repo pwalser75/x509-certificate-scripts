@@ -32,6 +32,12 @@
                     {{'certificates.ca.group-description'|translate}}
                     <div class="grid gutter">
 
+                        <input-component class="col-12" label="certificates.ca.alias"
+                                         [errors]="form.controls.caAlias.errors"
+                                         [control]="form.controls.caAlias">
+                            <input type="text" formControlName="caAlias">
+                        </input-component>
+
                         <input-component class="col-12" label="certificates.ca.keystore"
                                          [errors]="form.controls.caKeystore.errors"
                                          [control]="form.controls.caKeystore">
@@ -48,12 +54,6 @@
                                          [errors]="form.controls.caKeystoreKeyPass.errors"
                                          [control]="form.controls.caKeystoreKeyPass">
                             <input type="password" formControlName="caKeystoreKeyPass">
-                        </input-component>
-
-                        <input-component class="col-12" label="certificates.ca.alias"
-                                         [errors]="form.controls.caAlias.errors"
-                                         [control]="form.controls.caAlias">
-                            <input type="text" formControlName="caAlias">
                         </input-component>
 
                     </div>
@@ -151,8 +151,8 @@
 
         <hr>
 
-        <div class="script" *ngIf="certType=='CA' && certValid">
-            <h5>Create CA certificate</h5>
+        <div class="script red" *ngIf="certType=='CA' && certValid">
+            <h5>Create CA keystore (key & certificate)</h5>
             <code>keytool -genkeypair -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}} -alias
                 {{settings.alias}}
                 -keystore {{settings.keystore}} -dname "{{settings.dname}}"
@@ -162,20 +162,8 @@
             </code>
         </div>
 
-        <div class="script" *ngIf="certType=='CA' && certValid">
-            <h5>Export CA public certificate</h5>
-            <code>keytool -export -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -keypass
-                {{settings.keystoreKeyPass}} -alias
-                {{settings.alias}} -file {{settings.alias}}.cer
-            </code>
-            <code>keytool -exportcert -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -keypass
-                {{settings.keystoreKeyPass}} -alias
-                {{settings.alias}} -rfc -file {{settings.alias}}.pem
-            </code>
-        </div>
-
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
-            <h5>Create Server certificate</h5>
+        <div class="script red" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Create {{settings.certType|lowercase}} keystore (key & certificate)</h5>
             <code> keytool -genkey -alias {{settings.alias}} -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}}
                 -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -validity {{settings.validityDays}}
                 -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -keypass
@@ -183,7 +171,7 @@
             </code>
         </div>
 
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+        <div class="script orange" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
             <h5>Create CSR (certificate signing request)</h5>
             <code>
                 keytool -certreq -alias {{settings.alias}} -keystore {{settings.keystore}} -storepass
@@ -191,19 +179,19 @@
             </code>
         </div>
 
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
+        <div class="script orange" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
             <h5>CA: Sign CSR (certificate signing request)</h5>
             <code>
                 keytool -gencert -keystore {{settings.caKeystore}} -storepass {{settings.caKeystorePass}} -alias
                 {{settings.caAlias}}
                 -validity {{settings.validityDays}} -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext
                 EKU="{{settings.eku}}" <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
-                -keypass {{settings.caKeystoreKeyPass}} -infile
-                {{settings.alias}}.csr -outfile {{settings.alias}}-signed.cer
+                -keypass {{settings.caKeystoreKeyPass}} -infile {{settings.alias}}.csr -outfile
+                {{settings.alias}}-signed.cer
             </code>
         </div>
 
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
+        <div class="script orange" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
             <h5>Import CA cert and signed CSR (certificate signing request)</h5>
             <code>
                 keytool -import -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
@@ -211,38 +199,53 @@
             </code>
             <code>
                 keytool -import -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
-                -keypass {{settings.keystorePass}} -alias {{settings.alias}} -file
-                {{settings.alias}}-signed.cer
-                -noprompt
+                -keypass {{settings.keystoreKeyPass}} -alias {{settings.alias}} -file
+                {{settings.alias}}-signed.cer -noprompt
             </code>
         </div>
 
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
-            <h5>Export server keystore as PKCS12</h5>
-            <code>keytool -importkeystore -srckeystore {{settings.keystore}} -srcstorepass
-                {{settings.keystorePass}} -alias {{settings.alias}} -srckeypass {{settings.keystorePass}} -destkeystore
-                {{settings.keystore}}.p12 -deststoretype PKCS12 -deststorepass {{settings.keystorePass}}
-                -destkeypass {{settings.keystorePass}}
+        <div class="script yellow" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
+            <h5>Create {{settings.certType|lowercase}} truststore</h5>
+            <code *ngIf="caValid">
+                keytool -keystore {{settings.truststore}} -storepass {{settings.truststorePass}} -import -file
+                {{settings.caAlias}}.cer -alias {{settings.caAlias}} -noprompt
             </code>
         </div>
 
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
-            <h5>Export server public certificate</h5>
+        <div class="script gray" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Export {{settings.certType|lowercase}} public certificate</h5>
             <code>keytool -export -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
                 -alias {{settings.alias}} -rfc -file {{settings.alias}}.cer
             </code>
         </div>
 
-        <div class="script" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
-            <h5>Create Server truststore</h5>
-            <code *ngIf="caValid">
-                keytool -keystore {{settings.truststore}} -storepass {{settings.truststorePass}} -import -file
-                {{settings.caAlias}}.cer -alias {{settings.caAlias}} -noprompt
+        <div class="script gray" *ngIf="certValid">
+            <h5>Export {{settings.certType|lowercase}} keystore as PKCS#12</h5>
+            <code>keytool -importkeystore -srckeystore {{settings.keystore}} -srcstorepass
+                {{settings.keystorePass}} -alias {{settings.alias}} -srckeypass {{settings.keystoreKeyPass}}
+                -destkeystore {{settings.alias}}-keystore.p12 -deststoretype PKCS12 -deststorepass
+                {{settings.keystorePass}} -destkeypass {{settings.keystorePass}}
             </code>
+        </div>
+
+        <div class="script gray" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
+            <h5>Export {{settings.certType|lowercase}} truststore as PKCS#12</h5>
             <code>
                 keytool -importkeystore -srckeystore {{settings.truststore}} -srcstorepass
-                {{settings.truststorePass}} -destkeystore {{settings.alias}}.p12 -srcstoretype JKS
+                {{settings.truststorePass}} -destkeystore {{settings.alias}}-truststore.p12 -srcstoretype JKS
                 -deststoretype PKCS12 -deststorepass {{settings.truststorePass}}
+            </code>
+        </div>
+
+        <div class="script gray" *ngIf="certValid">
+            <h5>OpenSSL scripts: export certs, export private key (without encryption)</h5>
+            <code *ngIf="caValid">
+                openssl pkcs12 -in {{settings.alias}}-keystore.p12 -password pass:{{settings.keystorePass}} -nokeys -out
+                {{settings.alias}}.cer
+            </code>
+            <code>
+                openssl pkcs12 -in {{settings.alias}}-keystore.p12 -password pass:{{settings.keystorePass}} -nocerts
+                -nodes -out {{settings.alias}}.pem
             </code>
         </div>
 

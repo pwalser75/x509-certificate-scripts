@@ -19,3 +19,27 @@
     border-left: 3px solid #405169;
     margin-top: 2em;
 }
+
+.script.blue {
+    border-color: #3388C1;
+}
+
+.script.green {
+    border-color: #96BE0A;
+}
+
+.script.yellow {
+    border-color: #FFC901;
+}
+
+.script.orange {
+    border-color: #F79803;
+}
+
+.script.red {
+    border-color: #D74943;
+}
+
+.script.gray {
+    border-color: #DDDDDD;
+}
