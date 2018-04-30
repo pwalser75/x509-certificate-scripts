@@ -9,7 +9,7 @@
 
     <packaging>war</packaging>
 
-    <name>Angular Demo Project</name>
+    <name>X.509 Certificate Scripts</name>
 
     <properties>
         <javaee.version>7.0</javaee.version>
@@ -29,8 +29,8 @@
     </dependencies>
 
     <build>
-		<defaultGoal>clean install</defaultGoal>
-		
+        <defaultGoal>clean install</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>com.github.eirslett</groupId>

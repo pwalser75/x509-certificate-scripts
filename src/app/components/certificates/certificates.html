@@ -166,6 +166,7 @@
             <h5>Create {{settings.certType|lowercase}} keystore (key & certificate)</h5>
             <code> keytool -genkey -alias {{settings.alias}} -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}}
                 -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -validity {{settings.validityDays}}
+                <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
                 -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -keypass
                 {{settings.keystoreKeyPass}} -dname "{{settings.dname}}"
             </code>
@@ -175,7 +176,10 @@
             <h5>Create CSR (certificate signing request)</h5>
             <code>
                 keytool -certreq -alias {{settings.alias}} -keystore {{settings.keystore}} -storepass
-                {{settings.keystorePass}} -keypass {{settings.keystoreKeyPass}} -file {{settings.alias}}.csr
+                {{settings.keystorePass}} -keypass {{settings.keystoreKeyPass}}
+                <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
+                -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -file
+                {{settings.alias}}.csr
             </code>
         </div>
 
@@ -183,11 +187,10 @@
             <h5>CA: Sign CSR (certificate signing request)</h5>
             <code>
                 keytool -gencert -keystore {{settings.caKeystore}} -storepass {{settings.caKeystorePass}} -alias
-                {{settings.caAlias}}
-                -validity {{settings.validityDays}} -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext
-                EKU="{{settings.eku}}" <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
-                -keypass {{settings.caKeystoreKeyPass}} -infile {{settings.alias}}.csr -outfile
-                {{settings.alias}}-signed.cer
+                {{settings.caAlias}} -validity {{settings.validityDays}} -keypass {{settings.caKeystoreKeyPass}}
+                <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
+                -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}"
+                -infile {{settings.alias}}.csr -outfile {{settings.alias}}-signed.cer
             </code>
         </div>
 

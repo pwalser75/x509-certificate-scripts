@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "Angular Demo"
+    "name": "X.509 Certificate Scripts"
   },
   "apps": [
     {
@@ -23,7 +23,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-		"../node_modules/font-awesome/css/font-awesome.css"
+        "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
