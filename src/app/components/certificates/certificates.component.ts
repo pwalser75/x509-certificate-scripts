@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -15,19 +14,16 @@ export class CertificatesComponent implements OnInit {
     caValid: boolean;
     certValid: boolean;
 
-    constructor(private fb: FormBuilder, private router: Router) {
+    constructor(private fb: FormBuilder) {
     }
 
     ngOnInit(): void {
         this.form = this.fb.group(
             {
                 "caKeystore": ['', Validators.compose(
-                    [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.pattern(".+\\.jks")]
+                    [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.pattern(".+\\.(p12|pfx)")]
                 )],
                 "caKeystorePass": ['', Validators.compose(
-                    [Validators.required, Validators.minLength(6), Validators.maxLength(64)]
-                )],
-                "caKeystoreKeyPass": ['', Validators.compose(
                     [Validators.required, Validators.minLength(6), Validators.maxLength(64)]
                 )],
                 "caAlias": ['', Validators.compose(
@@ -37,12 +33,9 @@ export class CertificatesComponent implements OnInit {
                     [Validators.required]
                 )],
                 "keystore": ['', Validators.compose(
-                    [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.pattern(".+\\.jks")]
+                    [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.pattern(".+\\.(p12|pfx)")]
                 )],
                 "keystorePass": ['', Validators.compose(
-                    [Validators.required, Validators.minLength(6), Validators.maxLength(64)]
-                )],
-                "keystoreKeyPass": ['', Validators.compose(
                     [Validators.required, Validators.minLength(6), Validators.maxLength(64)]
                 )],
                 "alias": ['', Validators.compose(
@@ -58,7 +51,7 @@ export class CertificatesComponent implements OnInit {
                     [Validators.required, Validators.minLength(1), Validators.maxLength(10), Validators.pattern("[0-9]+")]
                 )],
                 "truststore": ['', Validators.compose(
-                    [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.pattern(".+\\.jks")]
+                    [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.pattern(".+\\.(p12|pfx)")]
                 )],
                 "truststorePass": ['', Validators.compose(
                     [Validators.required, Validators.minLength(6), Validators.maxLength(64)]
@@ -83,18 +76,16 @@ export class CertificatesComponent implements OnInit {
 
         var initialFormValue: any = {
             certType: '',
-            caKeystore: 'ca-keystore.jks',
+            caKeystore: 'ca-keystore.p12',
             caKeystorePass: '',
-            caKeystoreKeyPass: '',
             caAlias: 'test-ca',
-            keystore: '{alias}-keystore.jks',
+            keystore: '{alias}-keystore.p12',
             keystorePass: '',
-            keystoreKeyPass: '',
             alias: '',
             keyAlg: 'RSA',
             keySize: '2048',
             validityDays: '1830',
-            truststore: '{alias}-truststore.jks',
+            truststore: '{alias}-truststore.p12',
             truststorePass: '',
             serverNames: 'dn:localhost,ip:127.0.0.1',
             dnameCN: '{alias}',
@@ -114,7 +105,6 @@ export class CertificatesComponent implements OnInit {
                         val.caKeystore = val.keystore.replace('{alias}', this.settings.alias);
                     }
                     val.caKeystorePass = val.keystorePass;
-                    val.caKeystoreKeyPass = val.keystoreKeyPass;
                     this.form.setValue(val, {emitEvent: false});
                 }
             }
@@ -127,9 +117,10 @@ export class CertificatesComponent implements OnInit {
         this.certType = val.certType;
         this.settings = val;
 
-        this.caValid = val.caKeystore && val.caKeystorePass && val.caKeystoreKeyPass && val.caAlias;
+        this.caValid = val.caKeystore && val.caKeystorePass && val.caAlias;
         this.certValid = val.keystore && val.keystorePass && val.alias && val.keyAlg && val.keySize
-            && val.validityDays && val.truststore && val.truststorePass && val.dnameCN;
+            && val.validityDays && val.dnameCN
+            && (this.caValid || val.truststore && val.truststorePass );
 
         if (this.certValid) {
             this.settings.keystore = this.settings.keystore.replace('{alias}', this.settings.alias);

@@ -49,13 +49,6 @@
                                          [control]="form.controls.caKeystorePass">
                             <input type="password" formControlName="caKeystorePass">
                         </input-component>
-
-                        <input-component class="col-12" label="certificates.ca.keystoreKeyPass"
-                                         [errors]="form.controls.caKeystoreKeyPass.errors"
-                                         [control]="form.controls.caKeystoreKeyPass">
-                            <input type="password" formControlName="caKeystoreKeyPass">
-                        </input-component>
-
                     </div>
 
                 </div>
@@ -110,28 +103,24 @@
                             <input type="text" formControlName="dnameC">
                         </input-component>
 
-
-                        <input-component class="col-4 col-md-6" label="certificates.cert.keystore"
+                        <input-component class="col-6 col-md-6" label="certificates.cert.keystore"
                                          [errors]="form.controls.keystore.errors"
                                          [control]="form.controls.keystore">
                             <input type="text" formControlName="keystore">
                         </input-component>
-                        <input-component class="col-4 col-md-6" label="certificates.cert.keystorePass"
+                        <input-component class="col-6 col-md-6" label="certificates.cert.keystorePass"
                                          [errors]="form.controls.keystorePass.errors"
                                          [control]="form.controls.keystorePass">
                             <input type="password" formControlName="keystorePass">
                         </input-component>
-                        <input-component class="col-4 col-md-6" label="certificates.cert.keystoreKeyPass"
-                                         [errors]="form.controls.keystoreKeyPass.errors"
-                                         [control]="form.controls.keystoreKeyPass">
-                            <input type="password" formControlName="keystoreKeyPass">
-                        </input-component>
-                        <input-component class="col-4 col-md-6" label="certificates.cert.truststore"
+                        <input-component class="col-6 col-md-6" label="certificates.cert.truststore"
+                                         *ngIf="(certType=='SERVER' || certType=='CLIENT')"
                                          [errors]="form.controls.truststore.errors"
                                          [control]="form.controls.truststore">
                             <input type="text" formControlName="truststore">
                         </input-component>
-                        <input-component class="col-4 col-md-6" label="certificates.cert.truststorePass"
+                        <input-component class="col-6 col-md-6" label="certificates.cert.truststorePass"
+                                         *ngIf="(certType=='SERVER' || certType=='CLIENT')"
                                          [errors]="form.controls.truststorePass.errors"
                                          [control]="form.controls.truststorePass">
                             <input type="password" formControlName="truststorePass">
@@ -154,21 +143,19 @@
         <div class="script red" *ngIf="certType=='CA' && certValid">
             <h5>Create CA keystore (key & certificate)</h5>
             <code>keytool -genkeypair -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}} -alias
-                {{settings.alias}}
-                -keystore {{settings.keystore}} -dname "{{settings.dname}}"
-                -storepass {{settings.keystorePass}} -keypass {{settings.keystoreKeyPass}} -ext
-                KeyUsage:critical="keyCertSign,cRLSign" -ext
-                BasicConstraints:critical="ca:true,pathlen:1" -validity {{settings.validityDays}}
+                {{settings.alias}} -dname "{{settings.dname}}"
+                -keystore {{settings.keystore}} -storetype pkcs12 -storepass {{settings.keystorePass}}
+                -ext KeyUsage:critical="keyCertSign,cRLSign"
+                -ext BasicConstraints:critical="ca:true,pathlen:1" -validity {{settings.validityDays}}
             </code>
         </div>
 
         <div class="script red" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
             <h5>Create {{settings.certType|lowercase}} keystore (key & certificate)</h5>
             <code> keytool -genkey -alias {{settings.alias}} -keyalg {{settings.keyAlg}} -keysize {{settings.keySize}}
-                -keystore {{settings.keystore}} -storepass {{settings.keystorePass}} -validity {{settings.validityDays}}
+                -keystore {{settings.keystore}} -storetype pkcs12 -storepass {{settings.keystorePass}} -validity {{settings.validityDays}}
                 <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
-                -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -keypass
-                {{settings.keystoreKeyPass}} -dname "{{settings.dname}}"
+                -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -dname "{{settings.dname}}"
             </code>
         </div>
 
@@ -176,7 +163,7 @@
             <h5>Create CSR (certificate signing request)</h5>
             <code>
                 keytool -certreq -alias {{settings.alias}} -keystore {{settings.keystore}} -storepass
-                {{settings.keystorePass}} -keypass {{settings.keystoreKeyPass}}
+                {{settings.keystorePass}}
                 <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
                 -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}" -file
                 {{settings.alias}}.csr
@@ -187,7 +174,7 @@
             <h5>CA: Sign CSR (certificate signing request)</h5>
             <code>
                 keytool -gencert -keystore {{settings.caKeystore}} -storepass {{settings.caKeystorePass}} -alias
-                {{settings.caAlias}} -validity {{settings.validityDays}} -keypass {{settings.caKeystoreKeyPass}}
+                {{settings.caAlias}} -validity {{settings.validityDays}}
                 <span *ngIf="certType=='SERVER' && settings.serverNames">-ext SAN={{settings.serverNames}} </span>
                 -ext KeyUsage:critical="digitalSignature,keyEncipherment" -ext EKU="{{settings.eku}}"
                 -infile {{settings.alias}}.csr -outfile {{settings.alias}}-signed.cer
@@ -202,7 +189,7 @@
             </code>
             <code>
                 keytool -import -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
-                -keypass {{settings.keystoreKeyPass}} -alias {{settings.alias}} -file
+                -alias {{settings.alias}} -file
                 {{settings.alias}}-signed.cer -noprompt
             </code>
         </div>
@@ -219,24 +206,6 @@
             <h5>Export {{settings.certType|lowercase}} public certificate</h5>
             <code>keytool -export -keystore {{settings.keystore}} -storepass {{settings.keystorePass}}
                 -alias {{settings.alias}} -rfc -file {{settings.alias}}.cer
-            </code>
-        </div>
-
-        <div class="script gray" *ngIf="certValid">
-            <h5>Export {{settings.certType|lowercase}} keystore as PKCS#12</h5>
-            <code>keytool -importkeystore -srckeystore {{settings.keystore}} -srcstorepass
-                {{settings.keystorePass}} -alias {{settings.alias}} -srckeypass {{settings.keystoreKeyPass}}
-                -destkeystore {{settings.alias}}-keystore.p12 -deststoretype PKCS12 -deststorepass
-                {{settings.keystorePass}} -destkeypass {{settings.keystorePass}}
-            </code>
-        </div>
-
-        <div class="script gray" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid">
-            <h5>Export {{settings.certType|lowercase}} truststore as PKCS#12</h5>
-            <code>
-                keytool -importkeystore -srckeystore {{settings.truststore}} -srcstorepass
-                {{settings.truststorePass}} -destkeystore {{settings.alias}}-truststore.p12 -srcstoretype JKS
-                -deststoretype PKCS12 -deststorepass {{settings.truststorePass}}
             </code>
         </div>
 

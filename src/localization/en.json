@@ -39,7 +39,6 @@
       "group-description": "Certificate Authority for signing",
       "keystore": "Keystore",
       "keystorePass": "Keystore Password",
-      "keystoreKeyPass": "Keystore Key Password",
       "alias": "Alias"
     },
     "cert": {
@@ -48,7 +47,6 @@
       "type": "Certficate Type",
       "keystore": "Keystore",
       "keystorePass": "Keystore Password",
-      "keystoreKeyPass": "Keystore Key Password",
       "truststore": "Truststore",
       "truststorePass": "Truststore Password",
       "alias": "Alias",
