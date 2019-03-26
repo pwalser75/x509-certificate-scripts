@@ -66,7 +66,7 @@
                         <input-component class="col-4" label="certificates.cert.keyAlg"
                                          [errors]="form.controls.keyAlg.errors"
                                          [control]="form.controls.keyAlg">
-                            <select formControlName="keyAlg">
+                            <select formControlName="keyAlg" (change)="keyAlgChanged()">
                                 <option selected value="RSA">RSA</option>
                                 <option value="EC">EC</option>
                             </select>
@@ -197,7 +197,7 @@
         <div class="script yellow" *ngIf="(certType=='SERVER' || certType=='CLIENT') && certValid && caValid">
             <h5>Create {{settings.certType|lowercase}} truststore</h5>
             <code *ngIf="caValid">
-                keytool -keystore {{settings.truststore}} -storepass {{settings.truststorePass}} -import -file
+                keytool -keystore {{settings.truststore}} -storetype pkcs12 -storepass {{settings.truststorePass}} -import -file
                 {{settings.caAlias}}.cer -alias {{settings.caAlias}} -noprompt
             </code>
         </div>

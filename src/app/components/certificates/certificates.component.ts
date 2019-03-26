@@ -108,9 +108,18 @@ export class CertificatesComponent implements OnInit {
                     this.form.setValue(val, {emitEvent: false});
                 }
             }
+            console.log("CHange: " + JSON.stringify(val));
             this.updateScripts(val);
         });
         this.updateScripts(initialFormValue);
+    }
+
+    private keyAlgChanged() {
+        if (this.settings.keyAlg === 'EC') {
+            this.form.patchValue({keySize: 256});
+        } else {
+            this.form.patchValue({keySize: 2048});
+        }
     }
 
     private updateScripts(val: any) {
@@ -120,7 +129,7 @@ export class CertificatesComponent implements OnInit {
         this.caValid = val.caKeystore && val.caKeystorePass && val.caAlias;
         this.certValid = val.keystore && val.keystorePass && val.alias && val.keyAlg && val.keySize
             && val.validityDays && val.dnameCN
-            && (this.caValid || val.truststore && val.truststorePass );
+            && (this.caValid || val.truststore && val.truststorePass);
 
         if (this.certValid) {
             this.settings.keystore = this.settings.keystore.replace('{alias}', this.settings.alias);

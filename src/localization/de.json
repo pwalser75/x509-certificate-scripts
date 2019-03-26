@@ -36,7 +36,7 @@
     "description": "Script-generator für X.509 Zertifikate",
     "ca": {
       "group-name": "CA",
-      "group-description": "Certificate Authority für Signierung",
+      "group-description": "Zertifizierungsstelle (CA) für Signierung",
       "keystore": "Keystore",
       "keystorePass": "Keystore Passwort",
       "alias": "Alias"
