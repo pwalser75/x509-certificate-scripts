@@ -108,7 +108,6 @@ export class CertificatesComponent implements OnInit {
                     this.form.setValue(val, {emitEvent: false});
                 }
             }
-            console.log("CHange: " + JSON.stringify(val));
             this.updateScripts(val);
         });
         this.updateScripts(initialFormValue);
