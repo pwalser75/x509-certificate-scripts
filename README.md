@@ -23,7 +23,7 @@ You can also directly build this project using **NPM**
 
 Usage (project output directory: `./dist`):
 
-    npm run-script build
+    npm run build
     
 To start a local test server with auto-reload (for local development):
 
